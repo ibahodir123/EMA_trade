@@ -18,4 +18,5 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
       - name: Run tests (Unit Tests, ta-lib check)
-        run: pytest metrics/tests
+        run: python -m pytest metrics/tests
+

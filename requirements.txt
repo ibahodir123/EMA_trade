@@ -1,0 +1,12 @@
+aiohttp
+aiokafka
+clickhouse-connect
+fastparquet
+numpy
+pandas
+pandas-ta
+prometheus-client
+pyarrow
+PyYAML
+s3fs
+talib

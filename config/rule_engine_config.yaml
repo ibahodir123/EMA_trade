@@ -1,0 +1,47 @@
+# FILE: rule_engine_config.yaml
+
+# 1. ГЛОБАЛЬНЫЕ ПАРАМЕТРЫ СИСТЕМЫ
+GLOBAL:
+  EXCHANGES: ["BINANCE", "MEXC", "BINGX"]
+  ASSET_TYPE: "SPOT_LONG"
+  BASE_RISK_CURRENCY: "USDT"
+
+# 2. ПАРАМЕТРЫ РАСЧЕТА МЕТРИК (N/M) - Адаптированы под TF
+METRICS_CALCULATION:
+  N_ANGLE:       { "5m": 5, "1h": 5, "4h": 10, "1d": 10 }
+  N_VELOCITY:    { "5m": 10, "1h": 10, "4h": 20, "1d": 20 }
+  MIN_DURATION_BARS: { "5m": 12, "1h": 6, "4h": 6, "1d": 10 }
+
+# 3. УПРАВЛЕНИЕ РИСКАМИ (RISK_ENGINE)
+RISK_MANAGEMENT:
+  MAX_RISK_RATIO: 0.015
+  TRAILING_STOP_ACTIVE_PCT: 0.03
+  TRAILING_COEF: 1.0
+  SL_DYNAMIC_COEF_KRANGE: 2.5
+  SL_PROTECTION_TF: "1H"
+
+# 4. ПАРАМЕТРЫ RULE ENGINE (ПОРОГИ)
+RULE_ENGINE_THRESHOLDS:
+  FILTER_1D:
+    ANGLE_100_MIN: 0.0005
+    DURATION_100_MIN: 15
+  FILTER_4H:
+    EMA_ORDER_REQUIRED: true
+    SEP_50_20_MIN: 0.005
+  FILTER_1H:
+    CORRECTION_DURATION_MIN: 5
+    PRICE_IN_RANGE: ["EMA_50", "EMA_100"]
+  TRIGGER_5M:
+    SEP_50_20_MAX: 0.001
+    VELOCITY_20_MIN: 0.0
+    BAR_RANGE_MAX_COEF: 1.0
+
+# 5. АНАЛИТИКА И ОПТИМИЗАЦИЯ
+ANALYTICS:
+  MIN_PROFIT_SUCCESS: 0.025
+  NEUTRAL_PROFIT_RANGE: 0.005
+  OPTIMIZATION_RANGES:
+    K_RANGE: [1.5, 4.0, 0.2]
+    ANGLE_100_MIN_1D: [0.0002, 0.0015, 0.0001]
+    DURATION_100_MIN: [10, 30, 5]
+    SEP_50_20_MIN_4H: [0.002, 0.010, 0.001]

@@ -5,8 +5,10 @@ import pytest
 from metrics.calculator import calculate_metrics
 from metrics.config_loader import MetricParams
 
-
-talib = pytest.importorskip("talib")
+try:
+    import talib  # type: ignore
+except ModuleNotFoundError:  # pragma: no cover
+    talib = None
 
 
 def test_calculate_metrics_basic():
@@ -37,6 +39,7 @@ def test_calculate_metrics_basic():
     assert "close_position" in result.columns
 
 
+@pytest.mark.skipif(talib is None, reason="TA-Lib not installed")
 def test_ema_matches_talib():
     params = MetricParams(
         n_angle={"5m": 5},

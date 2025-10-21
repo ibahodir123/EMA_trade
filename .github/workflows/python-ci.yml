@@ -15,12 +15,7 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Install TA-Lib system dependency
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y ta-lib
       - name: Install dependencies
         run: pip install -r requirements.txt
       - name: Run tests (Unit Tests, ta-lib check)
         run: pytest metrics/tests
-

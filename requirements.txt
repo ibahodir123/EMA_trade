@@ -8,3 +8,4 @@ prometheus-client
 pyarrow
 PyYAML
 s3fs
+pytest

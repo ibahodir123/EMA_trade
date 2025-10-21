@@ -8,4 +8,4 @@ prometheus-client
 pyarrow
 PyYAML
 s3fs
-talib
+TA-Lib==0.6.5

@@ -1,7 +1,12 @@
+import numpy as np
 import pandas as pd
+import pytest
 
 from metrics.calculator import calculate_metrics
 from metrics.config_loader import MetricParams
+
+
+talib = pytest.importorskip("talib")
 
 
 def test_calculate_metrics_basic():
@@ -31,9 +36,6 @@ def test_calculate_metrics_basic():
     assert "bar_range" in result.columns
     assert "close_position" in result.columns
 
-import numpy as np
-import talib
-
 
 def test_ema_matches_talib():
     params = MetricParams(
@@ -54,7 +56,6 @@ def test_ema_matches_talib():
     )
     result = calculate_metrics(candles, "5m", params).dataframe
     talib_ema20 = talib.EMA(close, timeperiod=20)
-    # Сравниваем последние значения, игнорируя первые NaN
     assert np.allclose(result["ema20"].iloc[19:], talib_ema20[19:], atol=1e-6)
 
 
@@ -64,7 +65,6 @@ def test_cross_tf_consistency():
         n_velocity={"5m": 5, "1h": 5},
         min_duration_bars={"5m": 3, "1h": 1},
     )
-    # 12 * 5m = 1h
     base = np.arange(0, 120)
     candles_5m = pd.DataFrame(
         {
@@ -90,7 +90,6 @@ def test_cross_tf_consistency():
     result_5m = calculate_metrics(candles_5m, "5m", params).dataframe
     result_1h = calculate_metrics(candles_1h, "1h", params).dataframe
 
-    # EMA20 на часе должна совпасть с EMA, рассчитанной по агрегированным данным
     assert np.allclose(
         result_1h["ema20"].iloc[10:],
         result_5m.groupby(result_5m.index // 12)["ema20"].last().iloc[10:],
